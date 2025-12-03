@@ -1,0 +1,416 @@
+---
+title: "Network Upgrade Guide"
+category: "Development"
+id: "source/rtd_pages/nu_dev_guide"
+---
+
+orphan  
+
+# Network Upgrade Guide
+
+We recommend all wallets, exchanges, and clients that accept/support
+Zcash to follow these guidelines to prepare for the upcoming network
+upgrade. Network upgrades on a bi-annual basis to maintain the Zcash
+network.
+
+Below is general advice that applies to all network upgrades:
+
+`arrow-circle-right` Keep your zcashd node updated  
+Check that you are running the latest stable version of
+[zcashd](https://z.cash/download.html)
+
+`arrow-circle-right` Version verifiability  
+Clearly state the version of Zcash in a place users can find it.
+Somewhere inside the client’s user interface, state the protocol name
+and version number (available from the getblockchaininfo method). This
+allows users to check what version of Zcash their client is running.
+
+`arrow-circle-right` Pre-upgrade notification  
+Inform users that a network upgrade is happening before it happens. 4000
+blocks (approximately a week) in advance, tell users a network upgrade
+is happening soon, and that transactions will be unavailable for about
+an hour at the activation block height.
+
+`arrow-circle-right` Defensive transition  
+Disable the initiation of new transactions starting 48 blocks
+(approximately one hour) before the activation block-height. If a user
+sends a transaction right before the upgrade, it is likely to not make
+it onto the chain. This can cause user confusion and frustration.
+
+`arrow-circle-right` Post-upgrade notification  
+Tell users when the upgrade has finished and re-enable initiation of
+transactions. Notify users with a message or at their next login after
+the network transition.
+
+`pagelines` NU5 ------------------
+
+NU5 is the sixth major network upgrade for Zcash and a component of the
+[Halo
+Arc](https://electriccoin.co/blog/halo-arc-for-zcash-proposed-for-release-later-this-year/)
+product suite release. NU5 represents the continued evolution of our
+zk-SNARK technology stack and will move Zcash to the [Halo proving
+system](https://electriccoin.co/blog/announcing-zip-224-bringing-halo-2-to-zcash/),
+removing the need for the trusted setup and upgrading the protocol’s
+underlying cryptography.
+
+`arrow-circle-right` Consensus Branch ID change  
+See [ZIP 252](https://zips.z.cash/zip-0252) for full details on the
+deployment of NU5.
+
+`arrow-circle-right` Require Canonical Jubjub Point Encodings  
+[ZIP 216](https://zips.z.cash/zip-0216) fixes an oversight in the
+implementation of the Sapling consensus rules, by rejecting all
+non-canonical representations of Jubjub points.
+
+`arrow-circle-right` Orchard Shielded Protocol  
+[ZIP 224](https://zips.z.cash/zip-0224) introduces a new shielded pool
+with spending keys and payment addresses that are amenable to future
+scalability improvements. New pools with separate privacy sets are
+instituted at major network upgrades to [increase
+security](https://electriccoin.co/blog/turnstile-enforcement-against-counterfeiting/)
+of the monetary base.
+
+`arrow-circle-right` New Transaction Version Format  
+[ZIP 225](https://zips.z.cash/zip-0225) defines an update to the Zcash
+peer-to-peer transaction format to include support for data elements
+required to support the Orchard protocol. The new transaction format
+defines well-bounded regions of the serialized form to serve each of the
+existing pools of funds, and adds and describes a new region containing
+Orchard-specific elements.
+
+`arrow-circle-right` Relay of Version 5 Transactions  
+[ZIP 239](https://zips.z.cash/zip-0239) alters the peer-to-peer network
+protocol, adding a new inv message type which must be used for
+advertising V5 transactions. This ensures that network nodes cannot
+perform a denial-of-service attack on wallets that are submitting V5
+transactions to the mempool.
+
+`arrow-circle-right` Non-malleable Transaction IDs  
+[ZIP 244](https://zips.z.cash/zip-0244) defines a new transaction digest
+algorithm for the NU5 network upgrade onward, in order to introduce
+non-malleable transaction identifiers that commit to all transaction
+data except for attestations to transaction validity.
+
+`arrow-circle-right` Unified addresses  
+[ZIP 316](https://zips.z.cash/zip-0316) defines a new future-proof Zcash
+address format that improves usability, increases the ease of
+interoperability, and supports shielding Zcash by default. UAs make
+Zcash easier to use by removing the complexity of multiple address
+types. This simplifies the user experience and increases
+interoperability between shielded-only applications and transparent-only
+applications.
+
+## `tree` Canopy
+
+Canopy is the fifth network upgrade for Zcash, coinciding with the first
+Zcash halving. Canopy will establish a new development fund for the next
+four years.
+
+`arrow-circle-right` Consensus Branch ID change  
+See [ZIP 251](https://zips.z.cash/zip-0251)
+
+`arrow-circle-right` Development Fund ZIPs  
+[ZIP 207](https://zips.z.cash/zip-0207) and [ZIP
+214](https://zips.z.cash/zip-0214) are needed to establish a new
+development fund. ZIP 207 specifies a mechanism to support funding
+streams, distributed from a portion of the block subsidy for a specified
+range of block heights. ZIP 214 describes consensus rule changes
+interpreting the proposed structure of the Zcash Development Fund, which
+is to be enacted in Canopy and last for 4 years.
+
+`arrow-circle-right` Disabling Addition of New Value to Sprout Pool  
+[ZIP 211](https://zips.z.cash/zip-0211) disables the ability to add new
+value to the Sprout value pool balance. This takes a step toward being
+able to remove the Sprout protocol, thus reducing the overall complexity
+and attack surface of Zcash.
+
+`arrow-circle-right` Sapling Ephemeral Secret to Recipient in Note Plaintext  
+[ZIP 212](https://zips.z.cash/zip-0212) improves the security
+assumptions needed to ensure that diversified addresses are not
+linkable. It does this by introducing a new note plaintext format for
+Sapling Outputs in transactions.
+
+`arrow-circle-right` Fix Ed25519 Validation Rules to Allow Batch Validation  
+[ZIP 215](https://zips.z.cash/zip-0215) improves the validity criteria
+of Ed25519 signatures used in Sprout transactions by explicitly defining
+criteria and changing them to be compatible with batch validation.
+
+## `bullseye` Heartwood
+
+Heartwood is the fourth network upgrade for Zcash and enables more
+third-party integrations and better privacy through shielded coinbase.
+
+`arrow-circle-right` Consensus Branch ID change  
+See [ZIP 250](https://zips.z.cash/zip-0250)
+
+`arrow-circle-right` Flyclient Support  
+Flyclient, specified through [ZIP 221](https://zips.z.cash/zip-0221),
+enables efficient proofs of Proof-of-Work for light clients. In addition
+to enabling improved light-client wallets, this improves many
+cross-chain protocols. This ZIP specifies modifications to be made to
+the Zcash block header format to include Merkle Mountain Range (MMR)
+commitments.
+
+`arrow-circle-right` Shielded Coinbase  
+[ZIP 213](https://zips.z.cash/zip-0213) defines modifications to the
+Zcash consensus rules that enable coinbase funds to be mined to shielded
+Sapling addresses. It does not disable the use of transparent addresses
+in coinbase transactions.
+
+## `certificate` Blossom
+
+Blossom is the third network upgrade for Zcash.
+
+[Shorter Block Target
+Spacing](https://github.com/zcash/zips/blob/master/zip-0208.rst)
+
+This feature increases the frequency of blocks, allowing transactions to
+resolve faster. This will improve Zcash’s usability and increase how
+many transactions per hour the network can sustain while keeping
+transaction fees low. This feature has undergone a specification audit.
+It is currently being tested on testnet as part of the Blossom Network
+Upgrade Pipeline, before version 2.1.0 of zcashd supporting mainnet
+activation is released in September.
+
+`arrow-circle-right` Consensus Branch ID change  
+See [ZIP 206](https://github.com/zcash/zips/blob/master/zip-0206.rst)
+
+`arrow-circle-right` Amount of FR to be paid in coinbase transaction  
+See [ZIP 208](https://github.com/zcash/zips/blob/master/zip-0208.rst)
+and [Protocol Section
+7.7](https://github.com/zcash/zips/blob/master/protocol/protocol.pdf)
+
+`arrow-circle-right` Function from block height to FR has changed  
+See [ZIP 208](https://github.com/zcash/zips/blob/master/zip-0208.rst)
+and [Protocol Section
+7.8](https://github.com/zcash/zips/blob/master/protocol/protocol.pdf)
+
+## `leaf` Sapling
+
+Sapling is a network upgrade that introduces significant efficiency
+improvements for shielded transactions that will pave the way for broad
+mobile, exchange and vendor adoption of Zcash shielded addresses.
+
+`arrow-circle-right` Transaction formatting  
+All transactions must use the new transaction format from Sapling
+onwards. Make sure that you can parse these
+<span class="title-ref">v4</span> transactions. Previous formats will
+not be valid after the Sapling upgrade, so if you create transactions,
+the <span class="title-ref">v4</span> format must be used after the
+upgrade has activated (but not until then). Hardware wallets and SPV
+clients are particularly affected here.
+
+See [ZIP 243](https://github.com/zcash/zips/blob/master/zip-0243.rst).
+Test vectors for ZIP 243 have been pushed and are being reviewed.
+
+`arrow-circle-right` Shielded HD Wallets  
+All Sapling addresses will use hierarchical deterministic key generation
+according to [ZIP
+32](https://github.com/zcash/zips/blob/master/zip-0032.rst)
+(`keypath m/32'/133'/k' on mainnet`). Transparent and Sprout addresses
+will still use traditional key generation.
+
+See [ZIP 32](https://github.com/zcash/zips/blob/master/zip-0032.rst).
+
+Also see [Sapling Protocol
+Specification](https://github.com/zcash/zips/blob/master/protocol/protocol.pdf).
+
+### General Guidelines
+
+#### Using zcashd unmodified
+
+If you use the RPC as provided in the zcashd client, which is true for
+*most* exchanges and general users of Zcash, you must update your zcashd
+node to at least version 2.0.1.
+
+For an updated list of specific parameter changes for Sapling in the
+zcashd wallet RPC, please see:
+`Sapling RPC Updates v2.0.1 <pdfs/Sapling-RPC-Updates-v2.0.1.pdf>`
+(PDF).
+
+Additionally, Sapling introduces new parameters which must be downloaded
+by running the `fetch-params.sh` script. These new parameters are placed
+in the same directory as the older Sprout parameters.
+
+#### Using custom code to create/sign/send transactions
+
+If you manually create transactions, the following changes are
+<span class="title-ref">critical</span>. Reference section 7.1 of the
+[Sapling
+specification](https://github.com/zcash/zips/blob/master/protocol/protocol.pdf)
+for complete details:
+
+- The transactions version number **MUST** be 4.
+- The version group ID **MUST** be 0x892F2085.
+- At least one of tx_in_count, nShieldedSpend, and nJoinSplit **MUST**
+  be nonzero.
+- If version ≥ 4 and nShieldedSpend + nShieldedOutput \> 0 then:
+  - Let bvk and SigHash be as defined in §4.12 **‘Balance and Binding
+    Signature (Sapling)’**;
+  - bindingSig **MUST** represent a valid signature under the
+    *transaction binding verification key* bvk of SigHash - i.e.
+    BindingSig.Verify<sub>bvk</sub>(SigHash, bindingSig) = 1.
+- If version ≥ 4 and nShieldedSpend + nShieldedOutput = 0, then
+  valueBalance **MUST** be 0.
+- A coinbase transaction **MUST NOT** have any *JoinSplit descriptions,
+  Spend description, or Output descriptions*.
+- valueBalance **MUST** be in the range {-MAX_MONEY .. MAX_MONEY}.
+
+In addition, consensus rules associated with each JoinSplit description
+(§7.2 **‘Encoding of JoinSplit Descriptions’**) each Spend description
+(§7.3 **‘Encoding of Spend Descriptions’**) and each Output description
+(§7.4 **‘Encoding of Output Descriptions’**) **MUST** be followed.
+
+#### Mining Pools
+
+Mining pools running the Stratum protocol will have to make some changes
+as well.
+
+The `hashReserved` field in the Stratum Protocol will have to be
+replaced by the `hashFinalSaplingRoot` field from the block header (§7.5
+**‘Block Header’**).
+
+### Testing
+
+Sapling is currently activated on testnet. To test transactions you’ll
+want to follow the `testnet_guide`. Alternatively, developers can use
+these features in regtest mode.
+
+## `snowflake-o` Overwinter
+
+Overwinter is the first network upgrade for Zcash. Its purpose is
+strengthening the protocol for future network upgrades. It includes
+versioning, replay protection for network upgrades, performance
+improvements for transparent transactions, a new feature of transaction
+expiry, and more.
+
+Overwinter activated successfully at block `347500`, mined at `June 25`,
+`2018 20:42 UTC-04:00`
+
+`arrow-circle-right` Transaction formatting  
+All transactions must use the new transaction format from Overwinter and
+onwards. Make sure that you can parse these “v3” transactions (write a
+parser for them if you aren’t using our code). Previous formats will not
+be valid after the Overwinter upgrade, so if you create transactions,
+the “v3” format must be used after the upgrade has activated (but not
+until then). Hardware wallets and SPV clients are particularly affected
+here. See ZIPs
+[202](https://github.com/zcash/zips/blob/master/zip-0202.rst) and
+[203](https://github.com/zcash/zips/blob/master/zip-0203.rst) .
+
+`arrow-circle-right` Transaction version number  
+The 4-byte transaction version will have its most significant bit set
+from Overwinter and onwards, for two-way replay protection of Overwinter
+and unambiguous transaction parsing of all current and future formats.
+For example, existing “v1” and “v2” transactions use version numbers “1”
+and “2”, but “v3” Overwinter transactions will use the unsigned version
+number “(1 \<\< 31) \| 3” in the transaction serialization format. See
+ZIP [202](https://github.com/zcash/zips/blob/master/zip-0202.rst) .
+
+`arrow-circle-right` Version group IDs  
+A transaction version will be uniquely paired with a version group ID to
+ensure unambiguous transaction parsing. For example, a “v3” transaction
+will always have the version group ID "0x03C48270" in its serialization
+format, even after future network upgrades. See ZIP
+[202](https://github.com/zcash/zips/blob/master/zip-0202.rst) .
+
+`arrow-circle-right` Branch IDs  
+Each network upgrade has an associated branch ID that identifies its
+consensus rules. For two-way replay protection, creating transactions
+will require the branch ID of the current chain tip when signing a
+transaction (in the BLAKE2b personalization field.) You can obtain the
+branch ID of any block height from the getblock API. See ZIP
+[200](https://github.com/zcash/zips/blob/master/zip-0200.rst) .
+
+`arrow-circle-right` Signature hashing  
+There are new SegWit-like features in this upgrade, such as transaction
+signatures committing to values of the inputs. We suggest reusing code
+from SegWit (e.g. for hashing transparent outputs) when implementing the
+new SignatureHash function. See ZIP
+[143](https://github.com/zcash/zips/blob/master/zip-0143.rst) .
+
+`arrow-circle-right` Transaction expiry  
+We recommend that you do use the default expiry height (20 blocks/~1
+hours) and follow these UX guidelines so that Zcash users can develop a
+consistent expectation of when Zcash transactions expire and what
+happens. Zee ZIP
+[203](https://github.com/zcash/zips/blob/master/zip-0203.rst) .
+
+This isn't an exhaustive list of the changes. Look at the Overwinter
+Zcash Improvement Proposals (ZIPs) below for complete details on the
+changes that will be made. The five ZIPs cover network handshaking,
+transaction format, transaction expiry, signature hashing, and network
+upgrade mechanisms.
+
+> - `ZIP 143` [Transaction Signature Verification for
+>   Overwinter](https://github.com/zcash/zips/blob/master/zip-0143.rst)
+> - `ZIP 200` [Network Upgrade
+>   Mechanism](https://github.com/zcash/zips/blob/master/zip-0200.rst)
+> - `ZIP 201` [Network Peer Management for
+>   Overwinter](https://github.com/zcash/zips/blob/master/zip-0201.rst)
+> - `ZIP 202` [Version 3 Transaction Format for
+>   Overwinter](https://github.com/zcash/zips/blob/master/zip-0202.rst)
+> - `ZIP 203` [Transaction
+>   Expiry](https://github.com/zcash/zips/blob/master/zip-0203.rst)
+
+The network upgrade is coordinated via an on-chain activation mechanism.
+
+Zcashd v1.1.0 (and future releases) running protocol version `170005`
+will activate Overwinter at block 347500 at which point only v3
+transactions are processed. Older versions of Zcashd \<= 1.0.14, running
+protocol versions \<= 170004, will partition themselves away from the
+main network into a legacy chain.
+
+Wipeout protection is provided by the new transaction format and
+signature hashing scheme. Blocks from the legacy chain will not be
+accepted by the upgraded network. That is, the upgraded network is
+permanent, and Zcashd v1.1.0 (and future releases) can not reorganize
+back to the older non-upgraded chain.
+
+### Common Issues
+
+tx-overwinter-active  
+This error is simply saying that Overwinter has been activated and your
+client must be upgraded to the latest version. Upgrade your client and
+try again. If the issue persists try restarting the client. If this
+error is appearing on a third party app like a mobile wallet, please
+file a support request with the developer of the product and let us know
+in the [\#user-support](https://discord.gg/8t4zXje) channel on the
+community chat - <https://discord.gg/GGtsUzyp>
+
+mandatory-script-verify-flag-failed  
+(Script evaluated without error but finished with a false/empty top
+stack element)
+
+This error has been most commonly seen when using
+<span class="title-ref">sendrawtransaction</span>. This can be caused by
+a few things.
+
+> 1\. When creating raw transactions, the
+> <span class="title-ref">signrawtransaction</span> step must be
+> completed correctly. There is a field in
+> <span class="title-ref">signrawtransaction</span> called
+> <span class="title-ref">prevtxs</span> which can be seen here
+> (<https://zcash.github.io/rpc/signrawtransaction.html>). The
+> <span class="title-ref">prevtxs</span> parameter is optional, but if
+> it is specified, the <span class="title-ref">amount</span> parameter
+> must also be specified. This amount is the total amount of the
+> previous output. Prior to Overwinter the
+> <span class="title-ref">amount</span> parameter was not required, this
+> is a change between Overwinter and the previous version.
+>
+> 2\. This issue can also arise in an edge case where a user is signing
+> the transaction from an offline node. If this is the case the offline
+> node must be synced to above the Overwinter activation height, block
+> `347500`.
+
+Node sync is stuck before Overwinter activation height  
+This bug occurs when you are starting a fresh node or restarting a node
+that is not synced to above the Overwinter activation height
+(block 347500) and causes the node to sync very slowly. The bug has to
+do with your node incorrectly banning peer nodes. The end result is your
+node will sync very slowly as it will not be able to maintain as many
+connections to other nodes as usual.
+
+This issue has been fixed in 2.0.0. Please [update your
+client](https://z.cash/download.html) to 2.0.0 or above.

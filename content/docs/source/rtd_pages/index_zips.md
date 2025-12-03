@@ -1,0 +1,36 @@
+---
+title: "Zcash Improvement Proposals (ZIPs)"
+category: "Development"
+id: "source/rtd_pages/index_zips"
+---
+
+orphan  
+
+# Zcash Improvement Proposals (ZIPs)
+
+## What are ZIPs?
+
+Zcash Improvement Proposals (ZIPs) are the way to:
+
+1)  propose new features and their rationale,
+2)  specify the implementation details of the feature,
+3)  collect community input on the proposal, and
+4)  document design decisions.
+
+## Contributing ZIPs
+
+The author(s) of the ZIP are responsible for building consensus within
+the community and documenting/addressing dissenting opinions.
+
+Anyone can write a ZIP! We encourage community contributions and
+decentralization of work on the Zcash protocol. If you'd like to bounce
+ideas before formally writing a ZIP, we encourage it! Visit the
+[community dischord channel](https://discord.gg/GGtsUzyp) to talk about
+your idea.
+
+## Past and Current ZIPs
+
+Visit the [zips website](https://zips.z.cash/) for a detailed list of
+all ZIPs.
+
+[![image](images/zips.png)](https://zips.z.cash/)
